@@ -1,0 +1,108 @@
+import discord
+from discord.ext.commands import Bot
+from discord.ext import commands
+import asyncio
+import time
+import pickle
+respectCounter = pickle.load(open("respectCounter", "rb"))
+client = discord.Client()
+prefix = "!"
+
+@client.event
+async def on_ready():
+    print("Bot is ready!")
+
+@client.event
+async def on_message(message):
+    if message.content.upper() in ("F", "RIP"):
+        global respectCounter
+        respectCounter += 1
+        pickle.dump(respectCounter, open("respectCounter", "wb"))
+        await client.send_message(message.channel, "%(user)s has paid respects.\nRespects paid total: %(counter)s" % {"user": message.author.mention, "counter": respectCounter})
+
+    if message.content.upper() in ("LONELY", "ALL ALONE", "ALONE", "HELLO?", "I\'M LONELY", "IM LONELY"):
+        await client.send_message(message.channel, "Zelda Techhoof has hugged %(user)s tightly, so he isnt ever alone!\n!hug to hug %(user)s" % {"user": message.author.mention, "counter": respectCounter})
+
+    if message.content[:len(prefix)] == prefix:
+        args = message.clean_content[len(prefix):].split(" ") if "@everyone" in message.clean_content or "@here" in message.clean_content else message.content[len(prefix):].split(" ")
+        command = args[0].upper()
+        if command == "PING":
+            await client.send_message(message.channel, "%(user)s Pong!" % {"user": message.author.mention})
+
+        elif command == "HELP":
+            await client.send_message(message.channel, "%(user)s get your commands here! <https://docs.google.com/spreadsheets/d/1b32MzTKp16x50rIGmXlBOqTJe7Hn2kszYB-yUY7Lpcs/edit?usp=sharing>\nStill having issues? Join our support server! https://discord.gg/wuEnZxv" % {"user": message.author.mention})
+
+        elif command == "SUGGEST":
+            await client.send_message(await client.get_user_info('408306256680452117'), "%(user)s has made a suggestion!\n```%(args)s```" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "HUG":
+            await client.send_message(message.channel, "%(user)s sneaks up behind %(args)s, and when they aren't looking, tackles them from behind in the biggest hug ever!" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "NIGHT":
+            await client.send_message(message.channel, "%(user)s has snuggled with %(args)s, and pets him/her till they fall asleep.\nHow cute!" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "SNUGGLE":
+            await client.send_message(message.channel, "%(user)s has snuggled %(args)s, until they made... a slight moan? Owo" % {"args": " ".join(args[1:]), "user": message.author.mention})
+            
+        elif command == "CUDDLE":
+            await client.send_message(message.channel, "%(user)s has cuddled %(args)s.\n\nHow adorable!" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "DEER_STEAK":
+            await client.send_message(message.channel, "%(user)s has requested some Deer Steak!\nHere you go <@185938944460980224>!\nhttps://i.imgur.com/DUifJi2.png" % {"user": message.author.mention})
+
+        elif command == "BAP":
+            await client.send_message(message.channel, "%(user)s baps %(args)s, hard on the snoot with a rolled up news paper!\nouch!" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "BOOP":
+            await client.send_message(message.channel, "%(user)s booped %(args)s, on the snoot!\n\nUwU" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "LICK":
+            await client.send_message(message.channel, "%(user)s licked %(args)s!\n\nUwU" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "FLOP":
+            await client.send_message(message.channel, "%(user)s has flopped on %(args)s!\n\noof!" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "DICT":
+            await client.send_message(message.channel, "%(user)s has thrown a dictionary at %(args)s screaming \"KNOWLEDGE!\"!\n\nOuch!" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "NAP":
+            await client.send_message(message.channel, "%(user)s decided to flop on %(args)s\nafter a while, a sudden snoring could be heard from %(user)s\nUpon further inspection, it seems that they have fallen asleep\n%(args)s may need a forklift for this one!" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "PAT":
+            await client.send_message(message.channel, "%(user)s pats %(args)s gently on the head, also giving them head scratches" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "PET":
+            await client.send_message(message.channel, "%(user)s pets %(args)s, also giving them nice ear scritches \<3" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "LEWDPET":
+            await client.send_message(message.channel, "%(user)s pets %(args)s until all of a sudden, a slight moan came out of them" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "GLOMP":
+            await client.send_message(message.channel, "%(user)s pounces %(args)s, tackling them to the floor in a giant hug! \n %(user)s whispers \"I love you\" quietly into their ear" % {"args": " ".join(args[1:]), "user": message.author.mention})
+    
+        elif command == "KISS":
+            await client.send_message(message.channel, "%(user)s kissses %(args)s, \nThey must be in love :blue_heart:" % {"args": " ".join(args[1:]), "user": message.author.mention})
+    
+        elif command == "NUZZLE":
+            await client.send_message(message.channel, "%(user)s nuzzles %(args)s, \nArent they cute?" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "BITE":
+            await client.send_message(message.channel, "%(user)s has bitten %(args)s hard!\nYEOUCH!" % {"args": " ".join(args[1:]), "user": message.author.mention})
+    
+        elif command == "LICC":
+            await client.send_message(message.channel, "%(user)s licced %(args)s!\n\nUwU" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "NOM":
+            await client.send_message(message.channel, "%(user)s has nommed on %(args)s\'s neck!\n***UwU***" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "LEWDLICK":
+            await client.send_message(message.channel, "%(user)s licked %(args)s in a lewd way.\n\nGet a room you two!" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "WRAP":
+            await client.send_message(message.channel, "%(user)s wraps up %(args)s tightly in a warm blanket, giving them hot cocoa and plenty of mlems!\n\nHow adorable! :blue_heart:" % {"args": " ".join(args[1:]), "user": message.author.mention})
+
+        elif command == "SCREE":
+            await client.send_message(message.channel, "%(args)s pissed %(user)s off, causing them to scream at the top of their lungs\nSCREEEEEEEEEEEE! <:ReeZelda:461404985230491649>" % {"args": " ".join(args[1:]), "user": message.author.mention})
+        
+        await client.delete_message(message)
+            
